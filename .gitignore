@@ -1,1 +1,4 @@
 venv
+/app
+manage.py
+useage_test_2.py

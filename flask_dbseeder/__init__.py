@@ -7,29 +7,25 @@ try:
 except ImportError:
     Manager = None
 
-class _SeederConfig(object):
-    def __init__(self, seeder):
-        self.seeder = seeder
-        self.seeder_path = seeder.seeder_path
-
 class Seeder(object):
 
-    def __init__(self, app=None, *, directory=None):
+    def __init__(self, app=None, *, db=None, directory=None):
         self.directory = directory
         if self.directory is None:
             self.directory = 'Seeder'
+        if db is not None:
+            self.db = db
         if app is not None:
             self.app = app
-            self.init_app(self.app)
+            self.init_app(self.app, self.db)
     
-    def init_app(self, app):
+    def init_app(self, app, db):
         self.root_path = app.__dict__['root_path']
         self.seeder_path = os.path.join(self.root_path, self.directory)
-        # os.mkdir(self.directory)
         self.app = app
         if not hasattr(app, 'extensions'):
             app.extensions = {}
-        app.extensions['seeder'] = _SeederConfig(self)
+        app.extensions['db'] = db
     
     def add_seeds(self, seeds=[]):
         self.seeds = seeds
@@ -51,12 +47,9 @@ else:
 @SeederCommand.command
 def hello():
     "Just say hello"
-    print (current_app.extensions['seeder'].seeder_path)
+    print (current_app.extensions['seeder'].db)
 
 @SeederCommand.command
-def move():
-    seeds = SeedManager(current_app.extensions['seeds'])
+def run():
+    seeds = SeedManager(current_app.extensions)
     seeds()
-
-
-

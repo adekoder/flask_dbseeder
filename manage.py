@@ -3,7 +3,7 @@ from flask_script import Manager, Shell
 from flask_dbseeder import Seeder, SeederCommand
 from Seeder import UserSeeder
 
-seeder = Seeder(app)
+seeder = Seeder(app, db=db)
 seeder.add_seeds([UserSeeder])
 
 manager = Manager(app)
