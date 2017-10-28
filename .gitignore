@@ -1,4 +1,6 @@
-venv
+/venv
 /app
 manage.py
-useage_test_2.py
+usage_test_2.py
+/Seeder
+__pycache__
