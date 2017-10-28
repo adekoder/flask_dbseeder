@@ -1,6 +1,4 @@
 /venv
-/app
-manage.py
-usage_test_2.py
-/Seeder
+app.py
 __pycache__
+*.db
