@@ -19,20 +19,11 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
-class UserSeeder(SeedManager):
-    
-    def run(self):
-        user = User()
-        user.username= "john"
-        user.email = 'abc@gmail.com'
-        self.save(user)
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///' + os.path.join(basedir, 'test.db')
 db = SQLAlchemy(app)
 seeder = Seeder(app, db)
-seeder.add_seeds([UserSeeder])
+
 manager = Manager(app)
 manager.add_command('seed', SeederCommand)
 
@@ -43,6 +34,15 @@ class User(db.Model):
     email = db.Column(db.String(64))
     username = db.Column(db.String(64))
 
+class UserSeeder(SeedManager):
+    
+    def run(self):
+        user = User()
+        user.username= "john"
+        user.email = 'abc@gmail.com'
+        self.save(user)
+
+seeder.add_seeds([UserSeeder])
 
 if __name__ == "__main__":
     manager.run()
