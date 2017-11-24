@@ -31,9 +31,5 @@ class SeedManager(object):
         self.db.session.add(model)
         self.db.session.commit()
 
-        
-
-if __name__ == "__main__":
-    pass
 
 

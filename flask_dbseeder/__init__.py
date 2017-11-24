@@ -36,13 +36,12 @@ else:
 
     SeederCommand = FakeCommand()
 
-
-@SeederCommand.command
-def hello():
-    "Just say hello"
-    print (current_app.extensions['seeder'].db)
-
 @SeederCommand.command
 def run():
+    """ This command run the database seeding process."""
     seeds = SeedManager(current_app.extensions)
-    seeds()
+    try:
+        seeds()
+    except SQLAlchemyError:
+        import sys
+        print('%s' % sys.exc_info())

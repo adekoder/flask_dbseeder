@@ -48,7 +48,6 @@ if __name__ == "__main__":
     manager.run()
 ```
 
-With the above application you can create the database or enable migrations if the database already exists with the following command:
 > flask seed run
 Note that the FLASK_APP environment variable must be set according to the Flask documentation for this command to work. 
 
