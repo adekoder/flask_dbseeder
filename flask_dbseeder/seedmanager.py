@@ -12,7 +12,6 @@ class SeedManager(object):
         self.__classes = self.current_app['seeds']
         self.db = self.current_app['db']
                 
-
     def run(self):
         raise NotImplementedError(SeedManager.__not_implemeted_message
                                   % self.__class__.__name__)

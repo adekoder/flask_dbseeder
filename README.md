@@ -22,18 +22,26 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///' + os.path.join(basedir, 'test.db')
 db = SQLAlchemy(app)
+
+""" 
+    creating an instance of the Seederclass pasing in 
+    your app context and database instance.
+"""
 seeder = Seeder(app, db)
 
 manager = Manager(app)
+"""
+    creating the command to run seeds
+    with flask_migrate
+"""
 manager.add_command('seed', SeederCommand)
 
-
-class User(db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64))
-    username = db.Column(db.String(64))
-
+"""
+    Create your seeders by subclass the SeedManager class
+    with a run method.
+    ==> the SeedManager class provides you with a save method for 
+    save your data into the database.
+"""
 class UserSeeder(SeedManager):
     
     def run(self):
@@ -42,6 +50,10 @@ class UserSeeder(SeedManager):
         user.email = 'abc@gmail.com'
         self.save(user)
 
+""" 
+    Add the list of your seeder classes to the seeder obj 
+    by calling a add_seeds and passing it the list of your seeders
+"""
 seeder.add_seeds([UserSeeder])
 
 if __name__ == "__main__":
@@ -52,6 +64,9 @@ if __name__ == "__main__":
 Note that the FLASK_APP environment variable must be set according to the Flask documentation for this command to work. 
 
 The above command will run the seed operation, if no expection is thrown your data will be seeded into the database
+
+> flask seed test 
+Run the above method to run test
 
 ###### Resources
 * Documentation.
